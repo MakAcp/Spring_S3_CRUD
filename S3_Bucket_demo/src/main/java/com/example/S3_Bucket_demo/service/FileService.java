@@ -7,7 +7,7 @@ public interface FileService {
 
     String fileupload(MultipartFile file);
 
-    public byte[] downloadFile(final String keyName);
+    public byte[] downloadFile(String etag);
 
-    public void deleteFile(String keyName);
+    public void deleteFile(String etag);
 }

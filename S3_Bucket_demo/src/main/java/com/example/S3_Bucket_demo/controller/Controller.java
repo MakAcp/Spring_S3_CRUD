@@ -35,22 +35,23 @@ public class Controller {
 
 
     @GetMapping
-	public ResponseEntity<ByteArrayResource> uploadFile(@RequestParam("key") final String keyname) {
-		byte[] data = awsS3Service.downloadFile(keyname);
+	public ResponseEntity<ByteArrayResource> uploadFile(@RequestParam("etag") final String etag) {
+		byte[] data = awsS3Service.downloadFile(etag);
+
         ByteArrayResource resource = new ByteArrayResource(data);
         return ResponseEntity
             .ok()
             .contentLength(data.length)
             .header("Content-type", "application/octet-stream")
-            .header("Content-disposition", "attachment; filename=\"" + keyname + "\"")
+            .header("Content-disposition", "attachment; filename=\"" + etag + "\"")
             .body(resource);
 	}
 
     @DeleteMapping
     @ResponseBody
-	public ResponseEntity<String> deleteFile(@RequestParam("key") final String keyname) {
-		awsS3Service.deleteFile(keyname);
-        return new ResponseEntity<String>(" file :" + keyname + " is deleted ", HttpStatus.OK);
+	public ResponseEntity<String> deleteFile(@RequestParam("etag") final String etag) {
+		awsS3Service.deleteFile(etag);
+        return new ResponseEntity<String>(" file :" + etag + " is deleted ", HttpStatus.OK);
 	}
 
 
